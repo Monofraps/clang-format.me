@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="large-12 columns">
+        <h1>clang-format.me</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="large-12 columns">
+        <dl class="tabs" data-tab>
+            <dd class="active"><a href="#editor">Editor</a></dd>
+            <dd><a href="#raw">Raw</a></dd>
+        </dl>
+        <div class="tabs-content">
+            <div class="content active" id="editor">
+                <form>
+                  <div class="row collapse">
+                    <div class="large-1 columns">
+                      <span class="prefix">BasedOnStyle</span>
+                    </div>
+                    <div class="large-5 columns">
+                      <select name="BasedOnStyle">
+                        <option value="LLVM">LLVM</option>
+                        <option value="Google">Google</option>
+                        <option value="Chromium">Chromium</option>
+                        <option value="Mozilla">Mozilla</option>
+                        <option value="WebKit">WebKit</option>
+                      </select>
+                    </div>
+                  </div>
+                </form>
+            </div>
+            <div class="content" id="raw">
+                <textarea id="clangformat">BasedOnStyle: LLVM</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="large-12 columns">
+        <textarea id="c-code">void main() {}</textarea>
+    </div>
+</div>
+
+<div class="row">
+    <div class="large-12 columns">
+      <input id="enable-autoformat" type="checkbox" name="enable-autoformat" value="autoformat" checked><label>Enable automatic reformatting</label></checkbox> <br>
+      <button id="reformat-button" class="button">Reformat</button>
+    </div>
+</div>
+
+    <script data-main="/javascripts/application.js" src="/javascripts/require.js"></script>
+</div>
+{% endblock %}
