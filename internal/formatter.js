@@ -1,20 +1,22 @@
 var process = require('child_process');
+var temp = require('temp');
+var fs = require('fs');
+var path = require('path');
+
+temp.track();
 
 var RunClangFormat = function(code, formatRules, callback) {
   var command = "clang-format";
 
-  var styleArg = "";
-  formatRules.forEach(function(formatRule) {
-    if (styleArg.length > 0) {
-      styleArg += ',';
-    }
-    styleArg += formatRule.key + ': ' + formatRule.value;
-  });
+  var tmpDir = temp.mkdirSync('cfmt');
+  var tempFilePath = path.join(tmpDir, '.clang-format');
+  var tempFile = fs.openSync(tempFilePath, 'w');
+  fs.writeSync(tempFile, formatRules);
+  fs.close(tempFile);
 
-  var args = ['-style={' + styleArg + '}'];
-
-  var clangProcess = process.spawn(command, args,
+  var clangProcess = process.spawn(command, [],
   {
+    cwd: tmpDir,
     detached: true
   });
 
@@ -29,8 +31,21 @@ var RunClangFormat = function(code, formatRules, callback) {
   });
 
   clangProcess.on('close', function(exitCode) {
+    fs.unlink(tempFilePath, function(err) {
+      if(err) {
+        console.log(err);
+      }else {
+        fs.rmdir(tmpDir, function(err) {
+          if(err) {
+            console.log(err);
+          }
+        });
+      }
+    });
+
     if(exitCode == 0) {
       callback(formattedSource, null);
+      console.log(clangformatErrors);
     } else {
       callback(formattedSource, clangformatErrors);
     }
@@ -38,6 +53,6 @@ var RunClangFormat = function(code, formatRules, callback) {
 
   clangProcess.stdin.write(code);
   clangProcess.stdin.end();
-}
+};
 
 module.exports = RunClangFormat;

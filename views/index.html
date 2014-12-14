@@ -1,57 +1,103 @@
-{% extends 'layout.html' %}
-
-{% block content %}
+{% extends 'layout.html' %} {% block content %}
 <div class="row">
-    <div class="large-12 columns">
-        <h1>clang-format.me</h1>
-    </div>
+  <div class="large-12 columns">
+    <h1>clang-format.me</h1>
+  </div>
 </div>
 
 <div class="row">
-    <div class="large-12 columns">
-        <dl class="tabs" data-tab>
-            <dd class="active"><a href="#editor">Editor</a></dd>
-            <dd><a href="#raw">Raw</a></dd>
-        </dl>
-        <div class="tabs-content">
-            <div class="content active" id="editor">
-                <form>
-                  <div class="row collapse">
-                    <div class="large-1 columns">
-                      <span class="prefix">BasedOnStyle</span>
-                    </div>
-                    <div class="large-5 columns">
-                      <select name="BasedOnStyle">
-                        <option value="LLVM">LLVM</option>
-                        <option value="Google">Google</option>
-                        <option value="Chromium">Chromium</option>
-                        <option value="Mozilla">Mozilla</option>
-                        <option value="WebKit">WebKit</option>
-                      </select>
-                    </div>
-                  </div>
-                </form>
+  <div class="large-12 columns">
+    <dl class="tabs" data-tab>
+      <dd class="active"><a href="#editor">Editor</a>
+      </dd>
+      <dd><a href="#raw">Raw</a>
+      </dd>
+    </dl>
+    <div class="tabs-content">
+      <div class="content active" id='editor'>
+        <form class="collapse">
+          <div class="row collapse">
+            <div class="small-3 columns">
+              <span class="prefix">BasedOnStyle</span>
             </div>
-            <div class="content" id="raw">
-                <textarea id="clangformat">BasedOnStyle: LLVM</textarea>
+            <div class="small-7 columns">
+              <select name="BasedOnStyle" data-atbind="BasedOnStyle">
+                {% for option in basedOnStyleOption.options %}
+                <option value="{{option}}">{{option}}</option>
+                {% endfor %}
+              </select>
             </div>
-        </div>
+            <div class="small-2 columns">
+              <input type="button" id="apply-bos" class="button postfix" value="Apply">
+            </div>
+          </div>
+
+          <ul class="small-block-grid-3 cf-attribute-grid">
+            {% for configAttribute in clangFormatAttributes %}
+            <li>
+              <div class="cf-attribute-tile">
+                <h1>{{configAttribute.name}}</h1>
+
+                {% if configAttribute.type == 'int' %}
+                <input type="text" id="{{configAttribute.name}}" value="-2" data-atbind="{{configAttribute.name}}">
+                {% endif %}
+
+                {% if configAttribute.type == 'uint' %}
+                <input type="text" id="{{configAttribute.name}}" value="0" data-atbind="{{configAttribute.name}}">
+                {% endif %}
+
+                {% if configAttribute.type == 'select' %}
+                <select name="{{configAttribute.name}}" data-atbind="{{configAttribute.name}}">
+                  {% for option in configAttribute.options %}
+                  <option value="{{option}}">{{option}}</option>
+                  {% endfor %}
+                </select>
+                {% endif %}
+
+                {% if configAttribute.type == 'bool' %}
+                <div class="switch small cf-switch">
+                  <input id="{{configAttribute.name}}" type="checkbox" data-atbind="{{configAttribute.name}}">
+                  <label for="{{configAttribute.name}}"></label>
+                </div>
+                {% endif %}
+
+                {% if configAttribute.type == 'string' %}
+                <input type="text" id="{{configAttribute.name}}" data-atbind="{{configAttribute.name}}">
+                {% endif %}
+
+                <p>
+                  {{configAttribute.description}}
+                </p>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </form>
+      </div>
+      <div class="content" id="raw">
+        <textarea id="clangformat">BasedOnStyle: LLVM</textarea>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="row">
-    <div class="large-12 columns">
-        <textarea id="c-code">void main() {}</textarea>
-    </div>
+  <div class="large-12 columns">
+    <textarea id="c-code">void main() {}</textarea>
+  </div>
 </div>
 
 <div class="row">
-    <div class="large-12 columns">
-      <input id="enable-autoformat" type="checkbox" name="enable-autoformat" value="autoformat" checked><label>Enable automatic reformatting</label></checkbox> <br>
-      <button id="reformat-button" class="button">Reformat</button>
-    </div>
+  <div class="large-12 columns">
+    <input id="enable-autoformat" type="checkbox" name="enable-autoformat" value="autoformat" checked>
+    <label>Enable automatic reformatting</label>
+    </checkbox>
+    <br>
+    <button id="reformat-button" class="button">Reformat</button>
+  </div>
 </div>
 
-    <script data-main="/javascripts/application.js" src="/javascripts/require.js"></script>
+<script src="/javascripts/js-yaml.js"></script>
+<script data-main="/javascripts/application.js" src="/javascripts/require.js"></script>
 </div>
 {% endblock %}

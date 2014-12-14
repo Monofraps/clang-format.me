@@ -8,6 +8,7 @@ var swig = require('swig');
 
 var routes = require('./routes/index');
 var format = require('./routes/format');
+var rules = require('./routes/rules');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/format', format);
+app.use('/cf-rules', rules);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

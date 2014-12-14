@@ -1,7 +1,66 @@
-.CodeMirror {
-  border: 1px solid grey;
+@formInputHeight: 2.3125rem;
+@switchHeight: 1.75rem;
+
+@background: #fdf6e3;
+@lightBackground: #fefefe;
+@red: #dc322f;
+@green: #859900;
+
+body {
+  background: @background;
 }
 
+.CodeMirror {
+  border: 1px solid grey;
+
+}
 .row {
   margin-bottom: 15px;
+
+}
+form.collapse input,
+form.collapse select {
+  margin-bottom: 0;
+}
+
+.cf-switch {
+
+}
+
+.switch {
+  label {
+    background: @red;
+  }
+
+  input:checked+label {
+    background: @green;
+  }
+}
+
+.prefix {
+  padding-left: 1rem;
+}
+
+.cf-attribute-grid {
+  h1 {
+    font-size: 1.03rem;
+    font-weight: bold;
+  }
+
+  li {
+    padding: 7px;
+
+    .cf-attribute-tile {
+      background: @lightBackground;
+
+      box-shadow: 1px 3px 9px -4px black;
+
+      padding: 7px;
+      height: 230px;
+
+      p {
+        margin-top: 0.3rem;
+      }
+    }
+  }
 }
