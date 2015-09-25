@@ -57,7 +57,10 @@
                 {% if configAttribute.type == 'bool' %}
                 <div class="switch small cf-switch">
                   <input id="{{configAttribute.name}}" type="checkbox" data-atbind="{{configAttribute.name}}">
-                  <label for="{{configAttribute.name}}"></label>
+                  <label for="{{configAttribute.name}}">
+                    <span class="switch-on"></span>
+                    <span class="switch-off"></span>
+                  </label>
                 </div>
                 {% endif %}
 

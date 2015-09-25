@@ -27,6 +27,32 @@ form.collapse select {
 
 }
 
+.switch-on {
+  position: absolute;
+  left: -51px;
+  top: 4px;
+
+  &:after {
+    content: "On";
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
+  }
+}
+
+.switch-off {
+  position: absolute;
+  left: -24px;
+  top: 4px;
+
+  &:after {
+    content: "Off";
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
+  }
+}
+
 .switch {
   label {
     background: @red;
